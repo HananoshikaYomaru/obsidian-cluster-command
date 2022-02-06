@@ -16,6 +16,7 @@ export default class MyPlugin extends Plugin {
 	async onload() {
 		await this.loadSettings();
 		addCommands(this)
+		this.addSettingTab(new SettingTab(this.app , this))
 	}
 
 	onunload() {
@@ -33,6 +34,10 @@ export default class MyPlugin extends Plugin {
 
 function addCommands (plugin : Plugin ) { 
 	const prefix = "cluster-command"
+
+	/** 
+	 * change yaml 
+	 */
 	plugin.addCommand ({
 		id : `${prefix}-propagate-this` , 
 		name : "propagate this note", 
@@ -41,6 +46,9 @@ function addCommands (plugin : Plugin ) {
 		}
 	}) 
 
+	/** 
+	 * change yaml 
+	 */
 	plugin.addCommand ( { 
 		id : `${prefix}-propagate-all` , 
 		name : "propagate all notes" , 
@@ -49,6 +57,9 @@ function addCommands (plugin : Plugin ) {
 		}
 	}) 
 
+	/**
+	 * set query 
+	 */
 	plugin.addCommand ( { 
 		id : `${prefix}-isolate-this` , 
 		name : "isolate this cluster" , 
@@ -56,6 +67,14 @@ function addCommands (plugin : Plugin ) {
 			throw new Error ("not implemented") 
 		}
 	})
+
+	plugin.addCommand ({ 
+		id : `${prefix}-isolate-all` ,
+		name : "isolate all clusters" , 
+		callback : () => { 
+			throw new Error ("not implemented") 
+		}
+	}) 
 
 	plugin.addCommand ( { 
 		id : `${prefix}-merge-clusters` , 
@@ -65,13 +84,11 @@ function addCommands (plugin : Plugin ) {
 		}
 	})
 
-	plugin.addCommand( { 
-		id : `${prefix}-`
-	})
+	
 } 
 
 
-class SampleSettingTab extends PluginSettingTab {
+class SettingTab extends PluginSettingTab {
 	plugin: MyPlugin;
 
 	constructor(app: App, plugin: MyPlugin) {
